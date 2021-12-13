@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>test</title>
+  <script defer src="test.js" charset="utf-8"></script>
+  <!-- type="module" -->
+</head>
+<style>
+  #dateForm{ /* Defining the characteristics of the dateForm form */
+    background-color:white;
+    position:absolute; /* Stays in one place on the screen */
+    visibility:hidden; /* Hides the form when you're first on the page */
+    top:100px;
+    width:200px;
+    margin-left:-100px;
+    left:50%;
+    border:solid;
+    border-width:3px;
+    border-color:DarkGrey; /* Form outline */
+    background-color:Gainsboro; /* Background of the form */
+    padding:20px;
+    padding-top:10px;
+  } /*  */
+</style>
+<body> <!--  -->
+  <button id="showDateForm">Enter Date</button> <!-- Button to click to show the form -->
+  <div id="dateForm"> <!-- The form used to add points -->
+    <form id="form" name="form">
+      <h2>Select a Time</h2> <!-- Title -->
+      <p>
+        <label>Day of the Week:</label> <!-- Select the day of the week -->
+        <br>
+        <select id="dayOfWeek">
+          <option value="Sunday">Sunday</option>
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+          <option value="Saturday">Saturday</option>
+        </select>
+      </p>
+      <p>
+        <label>Start: (HH:MM AM/PM)</label> <!-- Enter the start time -->
+        <br>
+        <input type="string" id="startTime">
+      </p>
+      <p>
+        <label>End: (HH:MM AM/PM)</label> <!-- Enter the end time -->
+        <br>
+        <input type="string" id=endTime>
+      </p>
+    </form>
+    <button id="submitTime">Submit</button>
+    <button id="cancelTime">Cancel</button>
+  </div>
+</body>
+</html>
