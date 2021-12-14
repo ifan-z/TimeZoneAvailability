@@ -28,8 +28,7 @@ let users = [];
 let times = [];
 
 let weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-let times = [];
-let pollID = "HAPhRjVZ05KlE3BcdiLP";
+let pollID = "bWEeoCKIMMeFFwOrgNGQ";
 
 class Time{
   constructor(start, end){
@@ -64,18 +63,17 @@ async function addTime(){
   }
   let startHour;
   if(startTime.substring(6, 8) == "PM"){ //If the time is in the afternoon
-    startHour = Number(startTime.substring(0, 2)) + 11; //Add 11 to it so that it goes to the afternoon
-    //Adding 11 because the hours start at 0 rather than 1
+    startHour = Number(startTime.substring(0, 2)) + 12; //Add 12 to it so that it goes to the afternoon
   }else{
-    startHour = Number(startTime.substring(0, 2)) - 1; //Otherwise (morning) then minus 1, since hours start at 1 in Javascript
+    startHour = Number(startTime.substring(0, 2)); //Otherwise (morning) just take the value
   }
   let startMinutes = startTime.substring(3, 5); //Getting the minutes information
 
   let endHour;
   if(endTime.substring(6, 8) == "PM"){ //Same as above but for the end time
-    endHour = Number(endTime.substring(0, 2)) + 11;
+    endHour = Number(endTime.substring(0, 2)) + 12;
   }else{
-    endHour = Number(endTime.substring(0, 2)) - 1;
+    endHour = Number(endTime.substring(0, 2));
   }
   let endMinutes = endTime.substring(3, 5);
 
@@ -84,7 +82,7 @@ async function addTime(){
   start.setMonth(0); //Setting the month to January
   start.setDate(weekDayNum); //Setting the day of the month, 1-7, since 1 = Sunday
   start.setHours(startHour); //Setting the hour
-  start.setMinutes(startMinutes, 0); //Setting the minutes
+  start.setMinutes(startMinutes); //Setting the minutes
   console.log(start);
 
   let end = new Date(); //Same as above but for end time
@@ -92,19 +90,15 @@ async function addTime(){
   end.setMonth(0);
   end.setDate(weekDayNum);
   end.setHours(endHour);
-  end.setMinutes(endMinutes, 0);
+  end.setMinutes(endMinutes);
   console.log(end);
 
-  db.collection("Polls").doc(pollID).collection(name).add({
+  // Add a new document in a subcollection for the user under the poll ID and the user's name, the document ID is auto-generated
+  await addDoc(collection(db, "Polls", pollID, name), {
     start: start,
     end: end
   });
 
-  // Add a new document in a collection for the user under the poll ID
-  await addDoc(collection(db, "Polls", "HAPhRjVZ05KlE3BcdiLP", name), {
-    start: start,
-    end: end
-  });
   document.getElementById("dateForm").style.visibility = "hidden";
   location.reload();
 }
