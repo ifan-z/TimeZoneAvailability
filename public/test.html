@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>test</title>
-  <script defer src="test.js" charset="utf-8"></script>
+  <script defer type="module" src="test.js" charset="utf-8"></script>
   <!-- type="module" -->
 </head>
 <style>
@@ -23,13 +23,35 @@
     background-color:Gainsboro; /* Background of the form */
     padding:20px;
     padding-top:10px;
+  }
+  table{ /* Sets the width of the table to the width of the screen */
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  th,td{ /* Sets the heading and body boxes in the table to align on the left and have a padding of 8px */
+    text-align: left;
+    padding: 8px;
+    overflow: hidden;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2}/* Every second row is light grey in colour */
+
+  th{ /* Sets the heading boxes in the table to be bold, a grey background, and white text */
+  	font-size:large;
+    font-family:Snell Roundhand;
+    background-color: DarkGrey;
+    color: white;
   } /*  */
 </style>
 <body> <!--  -->
-  <button id="showDateForm">Enter Date</button> <!-- Button to click to show the form -->
   <div id="dateForm"> <!-- The form used to add points -->
     <form id="form" name="form">
       <h2>Select a Time</h2> <!-- Title -->
+      <p>
+        <label>Name:</label>
+        <input type="string" id="name">
+      </p>
       <p>
         <label>Day of the Week:</label> <!-- Select the day of the week -->
         <br>
@@ -56,6 +78,16 @@
     </form>
     <button id="submitTime">Submit</button>
     <button id="cancelTime">Cancel</button>
+  </div>
+  <div id="times"> <!-- Table to display the times for each user -->
+    <button id="showDateForm">Enter Date</button> <!-- Button to click to show the form -->
+    <table id="pointsTable">
+      <tr>
+        <th style="width:20%">User</th>
+        <th style="width:40%">Start Time</th>
+        <th style="width:40%">End Time</th>
+      </tr>
+    </table>
   </div>
 </body>
 </html>
