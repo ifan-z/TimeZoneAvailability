@@ -10,7 +10,9 @@ import {
   addDoc,
   getDoc,
   updateDoc,
-  onSnapshot
+  onSnapshot,
+  arrayUnion,
+  arrayRemove
 } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
 
 // setting up my web app framework - use your apiKey and info
@@ -24,18 +26,36 @@ const firebaseApp = initializeApp({
 
 // setting up the fireStore database
 const db = getFirestore();
-let users = [];
 let times = [];
 
 let weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 let pollID = "bWEeoCKIMMeFFwOrgNGQ";
 
 class Time{
-  constructor(start, end){
+  constructor(name, start, end){
+    this.name = name;
     this.start = start;
     this.end = end;
   }
 }
+
+//--------------------------------------------------------------------------
+
+// getting the name of all the users in the poll
+const pollDoc = await getDoc(doc(db, "Polls", pollID)); //Getting the poll document
+let users = pollDoc.data().users; //Getting the users array of the document
+console.log(users);
+
+// getting the data from the user subcollections
+for(let i in users){
+  const querySnapshotRecord = await getDocs(collection(db, "Polls", pollID, users[i]));
+  querySnapshotRecord.forEach((doc) => {
+    times.push(new Time(users[i], doc.data().start, doc.data().end));
+    console.log(times);
+  });
+}
+
+//--------------------------------------------------------------------------
 
 document.getElementById("showDateForm").onclick = function() { //Show the form
   document.getElementById("dateForm").style.visibility = "visible";
@@ -48,6 +68,8 @@ document.getElementById("cancelTime").onclick = function() { //Cancel the form
 document.getElementById("submitTime").onclick = function() { //Submit the form
   addTime();
 }
+
+//--------------------------------------------------------------------------
 
 async function addTime(){
   let frm = document.getElementById("form"); //Retrieving the form
@@ -98,7 +120,33 @@ async function addTime(){
     start: start,
     end: end
   });
+  const pollRef = doc(db, "Polls", pollID);
+
+  // Atomically add a new region to the "regions" array field.
+  await updateDoc(pollRef, {
+    users: arrayUnion(name)
+  });
 
   document.getElementById("dateForm").style.visibility = "hidden";
   location.reload();
 }
+
+//--------------------------------------------------------------------------
+
+function displayTimes(){ //Displays the table of times
+  for(let i in times){
+    let tbl = document.getElementById("timesTable");
+    let rowNumber = tbl.rows.length; //Retrieving how many rows there are
+    let row = tbl.insertRow(rowNumber); //Because it starts counting at 0, the number of rows is the row number we want to add
+    let uCell = row.insertCell(0); //User column
+    let sCell = row.insertCell(1); //Start time column
+    let eCell = row.insertCell(2); //End time column
+    //Accessing info
+    uCell.innerHTML = times[i].name;
+    sCell.innerHTML = times[i].start;
+    eCell.innerHTML = times[i].end;
+  }
+  console.log(times);
+}
+
+displayTimes();
