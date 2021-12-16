@@ -46,12 +46,39 @@ const pollDoc = await getDoc(doc(db, "Polls", pollID)); //Getting the poll docum
 let users = pollDoc.data().users; //Getting the users array of the document
 console.log(users);
 
-// getting the data from the user subcollections
+// getting the times from the user subcollections
 for(let i in users){
   const querySnapshotRecord = await getDocs(collection(db, "Polls", pollID, users[i]));
   querySnapshotRecord.forEach((doc) => {
-    times.push(new Time(users[i], doc.data().start, doc.data().end));
-    console.log(times);
+    let startDate = doc.data().start.toDate(); //Converts Firebase timestamp to Javascript Date
+    let endDate = doc.data().end.toDate();
+    let getDay = startDate.getDay(); //Getting the day of the week, 0-6
+    for(let i in weekDays){ //Comparing the number from the day of the week to the array of their corresponding names
+      if(getDay == i){ //If it matches
+        getDay = weekDays[i]; //Then set the variable to be that name
+      }
+    }
+    let startHour; //Starting hour
+    let startHalf; //Starting AM/PM
+    let endHour; //Ending hour
+    let endHalf; //Ending AM/PM
+    if(startDate.getHours() > 12){
+      startHour = startDate.getHours() - 12;
+      startHalf = "PM";
+    }else{
+      startHalf = "AM";
+    }
+    if(endDate.getHours() > 12){
+      endHour = endDate.getHours() - 12;
+      endHalf = "PM";
+    }else{
+      endHalf = "AM";
+    }
+    let start = getDay + ", " + startHour + ":" + startDate.getMinutes() + " " + startHalf;
+    let end = getDay + ", " + endHour + ":" + endDate.getMinutes() + " " + endHalf;
+    times.push(new Time(users[i], start, end));
+    console.log(times[i].start);
+    console.log(times[i].end);
   });
 }
 
@@ -105,6 +132,7 @@ async function addTime(){
   start.setDate(weekDayNum); //Setting the day of the month, 1-7, since 1 = Sunday
   start.setHours(startHour); //Setting the hour
   start.setMinutes(startMinutes); //Setting the minutes
+  start.setMilliseconds(0); //Setting the milliseconds
   console.log(start);
 
   let end = new Date(); //Same as above but for end time
@@ -113,6 +141,7 @@ async function addTime(){
   end.setDate(weekDayNum);
   end.setHours(endHour);
   end.setMinutes(endMinutes);
+  end.setMilliseconds(0);
   console.log(end);
 
   // Add a new document in a subcollection for the user under the poll ID and the user's name, the document ID is auto-generated
