@@ -156,7 +156,7 @@ async function addTime(){
   });
   const pollRef = doc(db, "Polls", pollID);
 
-  // Atomically add a new region to the "regions" array field.
+  // Atomically add a new region to the "users" array field.
   await updateDoc(pollRef, {
     users: arrayUnion(name)
   });
