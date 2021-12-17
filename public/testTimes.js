@@ -24,7 +24,7 @@ const firebaseApp = initializeApp({
 
 //---------------------------------------------------------------------------
 
-// setting up the fireStore database
+// setting up the Firestore database
 const db = getFirestore();
 let times = [];
 
@@ -45,6 +45,8 @@ class Time{
 const pollDoc = await getDoc(doc(db, "Polls", pollID)); //Getting the poll document
 let users = pollDoc.data().users; //Getting the users array of the document
 console.log(users);
+let pollCreator = pollDoc.data().creator; //Getting the name of the poll creator
+let pollName = pollDoc.data().name;
 
 // getting the times from the user subcollections
 for(let i in users){
@@ -95,6 +97,9 @@ document.getElementById("cancelTime").onclick = function() { //Cancel the form
 document.getElementById("submitTime").onclick = function() { //Submit the form
   addTime();
 }
+
+document.getElementById("title").innerHTML = pollName;
+document.getElementById("pollCreator").innerHTML = "Creator: " + pollCreator;
 
 //--------------------------------------------------------------------------
 

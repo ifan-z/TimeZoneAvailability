@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>test</title>
-  <script defer type="module" src="test.js" charset="utf-8"></script>
+  <title>Polls</title>
+  <script defer type="module" src="testPolls.js" charset="utf-8"></script>
   <!-- type="module" -->
 </head>
 <style>
-  #dateForm{ /* Defining the characteristics of the dateForm form */
+  #pollForm{ /* Defining the characteristics of the pollForm form */
     background-color:white;
     position:absolute; /* Stays in one place on the screen */
     visibility:hidden; /* Hides the form when you're first on the page */
@@ -45,47 +45,30 @@
   } /*  */
 </style>
 <body> <!--  -->
-  <div id="dateForm"> <!-- The form used to add points -->
+  <div id="pollForm"> <!-- The form used to create polls -->
     <form id="form" name="form">
-      <h2>Select a Time</h2> <!-- Title -->
+      <h2>Create a Poll</h2> <!-- Title -->
       <p>
-        <label>Name:</label>
-        <input type="string" id="name">
+        <label>Name of Poll:</label>
+        <input type="string" id="pollName">
       </p>
       <p>
-        <label>Day of the Week:</label> <!-- Select the day of the week -->
+        <label>Password:</label> <!-- Select the day of the week -->
         <br>
-        <select id="dayOfWeek">
-          <option value="Sunday">Sunday</option>
-          <option value="Monday">Monday</option>
-          <option value="Tuesday">Tuesday</option>
-          <option value="Wednesday">Wednesday</option>
-          <option value="Thursday">Thursday</option>
-          <option value="Friday">Friday</option>
-          <option value="Saturday">Saturday</option>
-        </select>
+        <input type="string" id="pollPassword">
       </p>
-      <p>
-        <label>Start: (HH:MM AM/PM)</label> <!-- Enter the start time -->
-        <br>
-        <input type="string" id="startTime">
-      </p>
-      <p>
-        <label>End: (HH:MM AM/PM)</label> <!-- Enter the end time -->
-        <br>
-        <input type="string" id=endTime>
-      </p>
+      <!-- <p>Remember your password, because we won't do it for you</p> -->
     </form>
-    <button id="submitTime">Submit</button>
-    <button id="cancelTime">Cancel</button>
+    <button id="submitPoll">Submit</button>
+    <button id="cancelPoll">Cancel</button>
   </div>
-  <div id="times"> <!-- Table to display the times for each user -->
-    <button id="showDateForm">Enter Date</button> <!-- Button to click to show the form -->
-    <table id="timesTable">
+  <div id="polls"> <!-- Table to display the polls for each user -->
+    <button id="showPollForm">Create Poll</button> <!-- Button to click to show the form -->
+    <table id="pollsTable">
       <tr>
         <th style="width:20%">User</th>
-        <th style="width:40%">Start Time</th>
-        <th style="width:40%">End Time</th>
+        <th style="width:40%">Poll Name</th>
+        <th style="width:40%">Poll Password</th>
       </tr>
     </table>
   </div>
