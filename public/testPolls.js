@@ -93,16 +93,28 @@ function displayPolls(){
   for(let i in polls){
     let tbl = document.getElementById("pollsTable");
     let rowNumber = tbl.rows.length; //Retrieving how many rows there are
-    let row = tbl.insertRow(rowNumber); //Because it starts counting at 0, the number of rows is the row number we want to add
+    let row = tbl.insertRow(rowNumber); //Because it starts counting at 0, the number of rows is the row number we want to add, since our first row (row 0) is just the title of each column
     let uCell = row.insertCell(0); //User column
     let nCell = row.insertCell(1); //Poll name column
     let pCell = row.insertCell(2); //Poll password column
     let idCell = row.insertCell(3); //Poll document ID column
+    let entCell = row.insertCell(4); //Column with buttons to enter different polls
     //Accessing info
     uCell.innerHTML = polls[i].creator;
     nCell.innerHTML = polls[i].name;
     pCell.innerHTML = polls[i].password;
     idCell.innerHTML = polls[i].id;
+    //Creating delete button
+    let enterButton = document.createElement("BUTTON");
+    let dt = document.createTextNode("Enter");
+    enterButton.appendChild(dt);
+    //Delete action wrapped in second function so that it does not automatically trigger
+    enterButton.addEventListener("click", function(){
+      let pollID = polls[rowNumber-1].id; //Finding the right poll
+      sessionStorage.setItem("pollID", pollID); //Saving the pollID to the browser
+      window.location.href = "https://timezoneavailability.web.app/testTimes.html"; //Redirecting to the "Times" page
+    });
+    entCell.appendChild(enterButton);
   }
   console.log(polls);
 }

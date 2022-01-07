@@ -29,7 +29,6 @@ const db = getFirestore();
 let times = [];
 
 let weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-let pollID = "bWEeoCKIMMeFFwOrgNGQ";
 
 class Time{
   constructor(name, start, end){
@@ -38,6 +37,9 @@ class Time{
     this.end = end;
   }
 }
+
+let pollID = sessionStorage.getItem("pollID");
+console.log(pollID);
 
 //--------------------------------------------------------------------------
 
